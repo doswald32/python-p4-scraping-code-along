@@ -48,6 +48,16 @@ class Scraper:
         self.courses = []
     
     def get_page(self):
+
+        courses = {
+            "Foothills Par 3": 0,
+            "Foothills Executive 9": 0,
+            "Foothills 18": 0,
+            "Foothills": 0,
+            "Meadows": 0,
+            "Meadows Back Nine": 0
+        }
+
         url = "https://app.membersports.com/tee-times/3697/4758/0/3/false"
         
         # Configure Chrome options
@@ -69,6 +79,24 @@ class Scraper:
         # Get the page source and parse it with BeautifulSoup
         page_source = driver.page_source
         doc = BeautifulSoup(page_source, 'html.parser')
+
+        date_raw = doc.select('.dateFormat')
+        full_date = date_raw[0].text.replace(u'\xa0', u' ')
+
+        availability = {full_date:
+                            {'06:00 AM':
+                                {
+                                    "Foothills Par 3": 0,
+                                    "Foothills Executive 9": 0,
+                                    "Foothills 18": 0,
+                                    "Foothills": 0,
+                                    "Meadows": 0,
+                                    "Meadows Back Nine": 0
+                                }
+                             }
+
+                        }
+
         ipdb.set_trace()
         
         # Find the elements with the class 'timeCol'
